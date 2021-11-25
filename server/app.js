@@ -15,10 +15,6 @@ app.use(bodyParser.json())
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-
 app.use(api)
-app.get('/', (req, res) => {
-    res.send(`<h3>Hello World</h3>`);
-});
 
 app.listen(appConfig.port);

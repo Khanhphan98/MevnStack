@@ -1,4 +1,4 @@
-# mevnapp
+# mevnstack
 
 > A Vue.js project
 
