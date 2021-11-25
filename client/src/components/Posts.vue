@@ -21,6 +21,10 @@
       Computed Properties: {{ numberTotal }}
     </div>
     <p :data-alt="name | capitalize('!')">{{ name | capitalize('!') }}</p>
+    <div>
+      <input ref="myInput">
+      <button @click="logRef">Get Ref</button>
+    </div>
   </div>
 </template>
 
@@ -46,6 +50,9 @@
       },
       filterNumber(numbers) {
         return numbers.filter(number => number % 2 === 0)
+      },
+      logRef () {
+        alert(this.$refs.myInput)
       }
     },
     computed: {
