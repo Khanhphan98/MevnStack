@@ -1,42 +1,38 @@
 <template>
-    <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="row justify-content-center">
-                        <div class="col-md-4">
-                            <div class="login">
-                                <form ng-dom="formLogin" data-parsley-validate>
-                                    <h1>{{ msg }}</h1>
-                                    <div class='form-group'>
-                                        <label class="text-label" for="user">Username</label>
-                                        <input type="text" v-model="username" class="form-control" placeholder="Enter user name..." >
-                                    </div>
-                                    <div class='form-group'>
-                                        <label for="password">Password</label>
-                                        <input type="password" v-model="password" class="form-control" placeholder="Enter password..." >
-                                    </div>
-                                    <button class="btn btn-primary">Login</button>
-                                    <router-link to="/register" class="btn btn-danger">SignUp</router-link>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <form @submit.prevent="handleLogin()">
+    <h2>Login</h2>
+    <div class="form-group" style="margin-bottom: 10px">
+      <label for="username">Username</label>
+      <input
+        type="text"
+        id="username"
+        class="form-control"
+        placeholder="Enter username"
+      />
     </div>
+    <div class="form-group" style="margin-bottom: 10px">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        class="form-control"
+        placeholder="Password"
+      />
+    </div>
+    <button style="margin-right: 10px" type="submit" class="btn btn-primary">
+      Login
+    </button>
+    <a href="register" class="btn btn-danger">SignUp</a>
+  </form>
 </template>
 
 <script>
 export default {
-  name: 'Login',
-  data () {
-    return {
-      msg: 'Login'
-    }
-  }
-}
+  name: "Login",
+  methods: {
+    handleLogin() {
+      console.log("login");
+    },
+  },
+};
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>
