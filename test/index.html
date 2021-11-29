@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body style="min-height: 2500px;">
+    <div id="app">
+        {{ message }}
+        <ol>
+            <todo-item v-for="item in groceryList" v-bind:todo="item" v-bind:key="item.id" >
+            </todo-item>
+        </ol>
+    </div>
+    <hr>
+
+    <div id="app-2">
+        <span v-bind:title="message">
+            {{ message }}
+        </span>
+    </div>
+    <hr>
+    <div id="app-3">
+        <span v-if="seen">Now you see me</span>
+    </div>
+    <hr>
+
+    <div id="app-4">
+        <span v-for="todo in todos">
+            {{ todo.text }}
+        </span>
+    </div>
+    <hr>
+
+    <div id="app-5">
+        <p>{{ message }}</p>
+        <button v-on:click="reverseMessage">Reverse Message</button>
+    </div>
+    <hr>
+
+    <div id="app-6">
+        <p>{{ message }}</p>
+        <input type="text" v-model="message">
+    </div>
+    <hr>
+
+    <div id="app-7">
+        <ol>
+            <todo-item v-for="item in groceryList" v-bind:todo="item" v-bind:key="item.id" >
+            </todo-item>
+        </ol>
+    </div>
+
+    <div id="app-8">
+        <p>{{ foo }}</p>
+        <button v-on:click="foo = 'baz'">Change it</button>
+    </div>
+
+    <div id="app-9">
+        <span>Message old: {{ message }}</span>
+        <span>Message new: {{ revertMessage() }}</span>
+    </div>
+
+    <div id="app-10">
+        <p>FirstName: <input type="text" v-model="firstName"></p>
+        <p>LastName: <input type="text" v-model="lastName"></p>
+    </div>
+
+    <div id="app-11">
+        <p>Ask a yes/no question</p>
+        <input v-model="question">
+        <p>{{ answer }}</p>
+    </div>
+
+    <div id="app-12">
+        <p class="static" v-bind:class="{ active: isActive, 'text-danger': hasError }">Class</p>
+        <p v-bind:class="classObject">Class Object</p>
+        <p v-bind:class="[classOne, classTwo]">Class Object 2</p>
+        <p v-bind:class="[isActive ? classOne : classTwo]">Class Object 3</p>
+    </div>
+
+    <div id="app-13">
+        <my-component class="baz boo"></my-component>
+        <div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">Khanh</div>
+        <div v-bind:style="[ baseStyle, overridingStyle ]">Phan</div>
+        <h3 v-if="awesome">Vue is awesome</h3>
+        <h3 v-else>Vue is normal</h3>
+    </div>
+
+    <div id="app-14">
+        <ul>
+            <li v-for="(item,index) in items" :key="item.message">
+                {{ index }} - {{ item.message }}
+            </li>
+        </ul>
+        <p>Lap qua mot object</p>
+        <ul>
+            <li v-for="(value, index) in objectData">
+                {{ index }} - {{ value }}
+            </li>
+            <li v-for="n in evenNumber" v-if="n > 10">{{ n }}</li>
+            <number-component></number-component>
+        </ul>
+    </div>
+
+    <div id="app-15">
+        <form v-on:submit.prevent="addNewTodo">
+            <label for="new-todo">Add Todo</label>
+            <input type="text" v-model="newTodoText" id="new-todo" placeholder="E.g. Feed the cat" >
+            <button>Add</button>
+        </form>
+        <ul>
+            <li is="todo-item" v-for="(todo, index) in todos" v-bind:key="todo.id"
+                v-bind:title="todo.title" v-on:remove="todos.splice(index, 1)" ></li>
+        </ul>
+    </div>
+
+    <div id="app-16">
+        <button v-on:click="count += 1">Up 1</button>
+        <p>Up to count {{ count }}</p>
+        <button v-on:click="greet">Hi</button>
+    </div>
+
+    <div id="app-17">
+        <button v-on:click="say('hi', $event)">Say Hi</button>
+        <button v-on:click="say('what', $event)">Say What</button>
+        <hr>
+        <button v-on:click.prevent.self="action('run')">Prevent self</button>
+        <button v-on:click.self.prevent="action('eat')">Self prevent</button>
+        <hr>
+        <input type="checkbox" id="checkbox" v-model="checked">
+        <label for="checkbox">{{ checked }}</label>
+        <hr>
+        <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+        <label for="jack">Jack</label>
+        <input type="checkbox" id="john" value="John" v-model="checkedNames">
+        <label for="john">John</label>
+        <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+        <label for="mike">Mike</label>
+        <br>
+        <span>Checked names: {{ checkedNames }}</span>
+        <hr>
+        <input type="radio" id="one" value="One" v-model="picked" />One
+        <input type="radio" id="two" value="Two" v-model="picked" />Two
+        <br>
+        <span>Picked: {{ picked }}</span>
+        <hr>
+        <select v-model="selected">
+            <option v-for="option in options" v-bind:value="option.value">{{ option.text }}</option>
+        </select>
+    </div>
+    <hr>
+    <div id="app-18">
+        <button-counter></button-counter>
+        <show-title title="My title One" name="K.P" ></show-title>
+        <blog-demo v-for="post in posts" v-bind:key="post.id" v-bind:id="post.id" v-bind:title="post.title" ></blog-demo>
+    </div>
+    <hr>
+
+    <div id="app-19">
+        <div :style="{ fontSize: postFontSize + 'em' }">
+            <blog-post v-for="post in posts" v-bind:key="post.id" v-bind:post="post" >                
+            </blog-post>
+        </div>
+    </div> 
+    <hr>
+
+    <div id="app-20">
+        <base-input label="Username:" v-model="username" required placeholder="Enter your username"></base-input>
+        <blog-post post-title="hello" author="K.P" ></blog-post>
+        <show-post v-bind:like='42' v-bind:title="post.title" v-bind:name="post.author.name"
+             v-bind:birthday="post.author.birthday" v-bind:boolean="false" 
+             v-bind:commentIds="[112, 113, 114]" ></show-post>
+             <base-checkbox v-model="lovingVue"></base-checkbox>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+    <script src="./index.js"></script>
+</body>
+</html>
