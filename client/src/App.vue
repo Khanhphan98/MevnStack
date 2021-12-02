@@ -30,9 +30,16 @@ export default {
     return { user: null };
   },
   async created() {
-    const res = await axios.get("user");
-    this.user = res.data.data;
-    console.log(this.user);
+    if (localStorage.getItem("token")) {
+      await axios
+        .get("user")
+        .then((res) => {
+          this.user = res.data.data;
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
   },
 };
 </script>

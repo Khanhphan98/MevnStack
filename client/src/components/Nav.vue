@@ -7,18 +7,12 @@
           <router-link class="nav-link" to="login">Login</router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link disabled" to="register"
-            >Register</router-link
-          >
+          <router-link class="nav-link" to="register">Register</router-link>
         </li>
       </ul>
       <ul class="navbar-nav mr-auto" v-if="user">
         <li class="nav-item">
-          <a
-            href="javascript:void(0)"
-            @click="handleLogout"
-            class="nav-link disabled"
-            to="register"
+          <a href="javascript:void(0)" @click="handleLogout" class="nav-link"
             >Logout</a
           >
         </li>
@@ -34,7 +28,7 @@ export default {
   methods: {
     handleLogout() {
       localStorage.removeItem("token");
-      this.$router.push("/");
+      this.$router.push("login");
     },
   },
 };
