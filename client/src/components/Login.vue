@@ -8,6 +8,7 @@
         id="username"
         class="form-control"
         placeholder="Enter username"
+        v-model="username"
       />
     </div>
     <div class="form-group" style="margin-bottom: 10px">
@@ -17,6 +18,7 @@
         id="password"
         class="form-control"
         placeholder="Password"
+        v-model="password"
       />
     </div>
     <button style="margin-right: 10px" type="submit" class="btn btn-primary">
@@ -31,8 +33,20 @@
 import axios from "axios";
 export default {
   name: "Login",
+  data() {
+    return {
+      username: "",
+      password: "",
+    };
+  },
   methods: {
-    handleLogin() {},
+    async handleLogin() {
+      const res = await axios.post("login", {
+        username: this.username,
+        password: this.password,
+      });
+      console.log(res);
+    },
   },
 };
 </script>

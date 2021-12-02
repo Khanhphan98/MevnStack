@@ -63,23 +63,13 @@ export default {
   },
   methods: {
     async handleRegister() {
-      var data = {
+      const res = await axios.post(`register`, {
         username: this.username,
         email: this.email,
         password: this.password,
         password_confirm: this.password_confirm,
-      };
-      console.log(data);
-      axios
-        .post(`http://localhost:9090/register`, data)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-      // const result = await axios.post("http://localhost:9090/register", data);
-      // console.log(result);
+      });
+      console.log(res);
     },
   },
 };
