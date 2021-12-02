@@ -69,8 +69,6 @@ module.exports = {
         const authHeader = req.headers['authorization']
         const token = authHeader && authHeader.split(' ')[1]
 
-        console.log(token)
-
         if (String(token) !== undefined) {
             const userInfo  = await jwt.verify(token, JWT_SECRET)
             const user      = await User.findById(userInfo.id)

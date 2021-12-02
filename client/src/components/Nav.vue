@@ -28,7 +28,7 @@ export default {
   methods: {
     handleLogout() {
       localStorage.removeItem("token");
-      this.$router.push("login");
+      window.location.href = "/login";
     },
   },
 };

@@ -49,7 +49,7 @@ export default {
         .then((res) => {
           console.log(res);
           localStorage.setItem("token", res.data.token);
-          this.$router.push("/");
+          window.location.href = "/";
         })
         .catch((e) => {
           console.log(e);
