@@ -5,8 +5,8 @@ const JWT_SECRET = 'sdjkfh8923yhjdksbfma@#*(&@*!^#&@bhjb2qiuhesdbhjdsfg839ujkdhf
 
 module.exports = {
     register: async (req, res) => {
-        const { username, password: plainTextPassword } = req.body
-        
+        const { username, email, password: plainTextPassword } = req.body
+
         if(!username || typeof username !== 'string') {
             return res.json({ status: false, error: 'Invalid username' })
         }
@@ -23,7 +23,7 @@ module.exports = {
 
         try {
             const result = await User.create({
-                username, password
+                username, email, password
             })
             return res.json({ status: true, message: 'Create user successfully' })
         } catch (e) {

@@ -27,12 +27,12 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
+import axios from "axios";
 export default {
   name: "Login",
   methods: {
-    handleLogin() {
-      console.log("login");
-    },
+    handleLogin() {},
   },
 };
 </script>

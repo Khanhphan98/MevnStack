@@ -49,6 +49,7 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
 import axios from "axios";
 export default {
   name: "Register",
@@ -61,7 +62,7 @@ export default {
     };
   },
   methods: {
-    handleRegister() {
+    async handleRegister() {
       var data = {
         username: this.username,
         email: this.email,
@@ -69,6 +70,16 @@ export default {
         password_confirm: this.password_confirm,
       };
       console.log(data);
+      axios
+        .post(`http://localhost:9090/register`, data)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      // const result = await axios.post("http://localhost:9090/register", data);
+      // console.log(result);
     },
   },
 };
