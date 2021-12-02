@@ -1,6 +1,11 @@
 <template>
   <form @submit.prevent="handleRegister()">
     <h2>Sign Up</h2>
+    <p v-if="errors.length">
+      <ul>
+        <li v-for="error in errors" v-bind:key="error" v-bind:todo="error" >{{ error }}</li>
+      </ul>
+    </p>
     <div class="form-group" style="margin-bottom: 10px">
       <label for="username">Username</label>
       <input
@@ -55,22 +60,45 @@ export default {
   name: "Register",
   data() {
     return {
-      username: "",
-      email: "",
-      password: "",
-      password_confirm: "",
+      username: null,
+      email: null,
+      password: null,
+      password_confirm: null,
+      errors: [],
     };
   },
   methods: {
     async handleRegister() {
-      const res = await axios.post(`register`, {
-        username: this.username,
-        email: this.email,
-        password: this.password,
-        password_confirm: this.password_confirm,
-      });
-      if (res.data.status) {
-        this.$router.push("/login");
+      if (
+        this.username &&
+        this.email &&
+        this.password &&
+        this.password_confirm
+      ) {
+        const res = await axios.post(`register`, {
+          username: this.username,
+          email: this.email,
+          password: this.password,
+          password_confirm: this.password_confirm,
+        });
+
+        if (res.data.status) {
+          this.$router.push("/login");
+        }
+      }
+      this.errors = [];
+
+      if (!this.username) {
+        this.errors.push("Username is required");
+      }
+      if (!this.email) {
+        this.errors.push("Email is required");
+      }
+      if (!this.password) {
+        this.errors.push("Password is required");
+      }
+      if (!this.password_confirm) {
+        this.errors.push("Password_confirm is required");
       }
     },
   },
