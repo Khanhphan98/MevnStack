@@ -30,7 +30,7 @@ export default {
     return { user: null };
   },
   async created() {
-    if (localStorage.getItem("token")) {
+    if (document.cookie.split("=")[1]) {
       await axios
         .get("user")
         .then((res) => {

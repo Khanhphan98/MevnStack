@@ -56,6 +56,7 @@ export default {
         .then((res) => {
           console.log(res);
           localStorage.setItem("token", res.data.token);
+          document.cookie = `token=${res.data.token}; max-age: 7200`;
           window.location.href = "/";
         })
         .catch((e) => {
