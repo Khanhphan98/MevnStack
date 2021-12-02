@@ -69,7 +69,6 @@ export default {
         password: this.password,
         password_confirm: this.password_confirm,
       });
-      console.log(res);
       if (res.data.status) {
         this.$router.push("/login");
       }

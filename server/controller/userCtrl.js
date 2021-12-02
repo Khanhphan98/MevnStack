@@ -8,15 +8,15 @@ module.exports = {
         const { username, email, password: plainTextPassword } = req.body
 
         if(!username || typeof username !== 'string') {
-            return res.json({ status: false, error: 'Invalid username' })
+            return res.json({ status: false, error: 'Invalid username' }, 422)
         }
 
         if(!plainTextPassword || typeof plainTextPassword !== 'string'){
-            return res.json({ status: false, error: 'Invalid password' })
+            return res.json({ status: false, error: 'Invalid password' }, 422)
         }
         
         if(plainTextPassword.length < 5) {
-            return res.json({ status: false, error: 'Password too small. Should be atleast 6 characters'})
+            return res.json({ status: false, error: 'Password too small. Should be atleast 6 characters'}, 422)
         }
 
         const password = await bcrypt.hash(plainTextPassword, 10)
@@ -25,10 +25,9 @@ module.exports = {
             const result = await User.create({
                 username, email, password
             })
-            return res.json({ status: true, message: 'Create user successfully' })
+            return res.json({ status: true, message: 'Create user successfully' }, 200)
         } catch (e) {
-            throw e
-            return res.json({ status: false, error: e })
+            return res.json({ status: false, error: e }, 422)
         }
 
     },
@@ -38,7 +37,7 @@ module.exports = {
         const user = await User.findOne({ username }).lean()
 
         if (!user) {
-            return res.json({ status: false, error: 'Invalid username/password' })
+            return res.json({ status: false, error: 'Invalid username/password' }, 422)
         } 
 
         try {
@@ -50,12 +49,11 @@ module.exports = {
                     },
                     JWT_SECRET
                 )
-                return res.json({ status: true, token: token })
+                return res.json({ status: true, token: token }, 200)
             }    
-            return res.json({ status: false, error: 'Invalid username/password' })
+            return res.json({ status: false, error: 'Invalid username/password' }, 422)
         } catch(e) {
-            throw e
-            return res.json({ status: false, error: e })
+            return res.json({ status: false, error: e }, 422)
         }
     },
     logout: async (req, res) => {
@@ -71,14 +69,14 @@ module.exports = {
         const authHeader = req.headers['authorization']
         const token = authHeader && authHeader.split(' ')[1]
 
-        if (token) {
-            try {
-                const userInfo  = jwt.verify(token, JWT_SECRET)
-                const user      = await User.findById(userInfo.id)
-                return res.json({ status: true,data: user }, 200)
-            } catch (e) {
-                throw e
-            }    
+        console.log(token)
+
+        if (String(token) !== undefined) {
+            const userInfo  = await jwt.verify(token, JWT_SECRET)
+            const user      = await User.findById(userInfo.id)
+            return res.json({ status: true,data: user }, 200)
+        } else {
+            return res.json({ status: false }, 422)
         }
     }
 }
