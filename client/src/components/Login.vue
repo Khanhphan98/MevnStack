@@ -41,11 +41,18 @@ export default {
   },
   methods: {
     async handleLogin() {
-      const res = await axios.post("login", {
-        username: this.username,
-        password: this.password,
-      });
-      console.log(res);
+      await axios
+        .post("login", {
+          username: this.username,
+          password: this.password,
+        })
+        .then((res) => {
+          localStorage.setItem("token", res.data.token);
+          this.$router.push("/");
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     },
   },
 };

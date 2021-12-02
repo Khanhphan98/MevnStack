@@ -50,7 +50,7 @@ module.exports = {
                     },
                     JWT_SECRET
                 )
-                return res.json({ status: true, data: token })
+                return res.json({ status: true, token: token })
             }    
             return res.json({ status: false, error: 'Invalid username/password' })
         } catch(e) {
@@ -66,6 +66,16 @@ module.exports = {
         } catch (e) {
             throw e
         }
-
+    },
+    getUser: async (req, res) => {
+        const authHeader = req.headers['authorization']
+        const token = authHeader && authHeader.split(' ')[1]
+        try {
+            const userInfo  = await jwt.verify(token, JWT_SECRET)
+            const user      = await User.findById(userInfo.id)
+            return res.json({ data: user })
+        } catch (e) {
+            throw e
+        }
     }
 }
