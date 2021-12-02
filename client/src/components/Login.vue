@@ -1,6 +1,11 @@
 <template>
   <form @submit.prevent="handleLogin()">
     <h2>Login</h2>
+    <p v-if="errors.length">
+      <ul>
+        <li v-for="error in errors" v-bind:key="error" v-bind:todo="error" >{{ error }}</li>
+      </ul>
+    </p>
     <div class="form-group" style="margin-bottom: 10px">
       <label for="username">Username</label>
       <input
@@ -35,13 +40,15 @@ export default {
   name: "Login",
   data() {
     return {
-      username: "",
-      password: "",
+      username: null,
+      password: null,
+      errors: []
     };
   },
   methods: {
     async handleLogin() {
-      await axios
+      if (this.username && this.password) {
+        await axios
         .post("login", {
           username: this.username,
           password: this.password,
@@ -54,6 +61,14 @@ export default {
         .catch((e) => {
           console.log(e);
         });
+      }
+      this.errors = [];
+      if (!this.username) {
+        this.errors.push('Username is required')
+      }
+      if (!this.password) {
+        this.errors.push('Password is required')
+      }
     },
   },
 };
