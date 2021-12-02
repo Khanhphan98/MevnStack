@@ -1,7 +1,8 @@
 const User   = require('../models/User')
 const bcrypt = require('bcryptjs')
 const jwt    = require('jsonwebtoken')
-const JWT_SECRET = 'sdjkfh8923yhjdksbfma@#*(&@*!^#&@bhjb2qiuhesdbhjdsfg839ujkdhfjk'
+const config = require('../config/app.js')
+const JWT_SECRET = config.JWT_SECRET;
 
 module.exports = {
     register: async (req, res) => {
@@ -47,7 +48,8 @@ module.exports = {
                         id: user._id,
                         username: user.username
                     },
-                    JWT_SECRET
+                    JWT_SECRET,
+                    { expiresIn: '1d' }
                 )
                 return res.json({ status: true, token: token }, 200)
             }    
