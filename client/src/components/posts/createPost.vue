@@ -6,7 +6,7 @@
 
     <b-modal
       v-model="show"
-      title="Modal Variants"
+      title="Create Post"
       :header-bg-variant="headerBgVariant"
       :header-text-variant="headerTextVariant"
       :body-bg-variant="bodyBgVariant"
@@ -15,66 +15,65 @@
       :footer-text-variant="footerTextVariant"
     >
       <b-container fluid>
-        <b-row class="mb-1 text-center">
-          <b-col cols="3"></b-col>
-          <b-col>Background</b-col>
-          <b-col>Text</b-col>
-        </b-row>
-
-        <b-row class="mb-1">
-          <b-col cols="3">Header</b-col>
-          <b-col>
-            <b-form-select
-              v-model="headerBgVariant"
-              :options="variants"
-            ></b-form-select>
-          </b-col>
-          <b-col>
-            <b-form-select
-              v-model="headerTextVariant"
-              :options="variants"
-            ></b-form-select>
-          </b-col>
-        </b-row>
-
-        <b-row class="mb-1">
-          <b-col cols="3">Body</b-col>
-          <b-col>
-            <b-form-select
-              v-model="bodyBgVariant"
-              :options="variants"
-            ></b-form-select>
-          </b-col>
-          <b-col>
-            <b-form-select
-              v-model="bodyTextVariant"
-              :options="variants"
-            ></b-form-select>
-          </b-col>
-        </b-row>
-
         <b-row>
-          <b-col cols="3">Footer</b-col>
-          <b-col>
-            <b-form-select
-              v-model="footerBgVariant"
-              :options="variants"
-            ></b-form-select>
-          </b-col>
-          <b-col>
-            <b-form-select
-              v-model="footerTextVariant"
-              :options="variants"
-            ></b-form-select>
-          </b-col>
+          <form>
+            <div class="form-group">
+              <label for="title">Title</label>
+              <input
+                type="text"
+                class="form-control"
+                id="title"
+                placeholder="Enter title"
+                v-model="title"
+              />
+            </div>
+            <div class="form-group">
+              <label for="content">Content</label>
+              <input
+                type="text"
+                class="form-control"
+                id="content"
+                placeholder="Enter content"
+                v-model="content"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="author">Author</label>
+              <input
+                type="text"
+                class="form-control"
+                id="author"
+                placeholder="Enter author"
+                v-model="author"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="status">Status</label>
+              <select class="form-control" id="status" v-model="status">
+                <option>-- Select option --</option>
+                <option value="1">Hoạt động</option>
+                <option value="0">Tạm dừng</option>
+              </select>
+            </div>
+          </form>
         </b-row>
       </b-container>
 
       <template #modal-footer>
         <div class="w-100">
-          <p class="float-left">Modal Footer Content</p>
           <b-button
             variant="primary"
+            size="sm"
+            class="float-right"
+            @click="create()"
+            style="margin-right: 5px"
+          >
+            Create
+          </b-button>
+          <b-button
+            variant="danger"
             size="sm"
             class="float-right"
             @click="show = false"
@@ -88,6 +87,8 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
+import axios from "axios";
 export default {
   name: "CreatePost",
   data() {
@@ -109,7 +110,28 @@ export default {
       bodyTextVariant: "dark",
       footerBgVariant: "warning",
       footerTextVariant: "dark",
+      title: null,
+      author: null,
+      content: null,
+      status: null,
     };
+  },
+  methods: {
+    async create() {
+      await axios
+        .post("insert-post", {
+          title: this.title,
+          author: this.author,
+          content: this.content,
+          status: this.status,
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
 };
 </script>
