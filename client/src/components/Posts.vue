@@ -2,9 +2,7 @@
   <div>
     <div class="wrap-header">
       <h3>Posts</h3>
-      <button class="btn btn-primary">
-        <i class="fa fa-plus-circle"></i> ADD
-      </button>
+      <CreatePosts />
     </div>
     <ListPosts :posts="posts" />
   </div>
@@ -14,11 +12,13 @@
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
 import ListPosts from "./posts/listPosts.vue";
+import CreatePosts from "./posts/createPost.vue";
 
 export default {
   name: "Posts",
   components: {
     ListPosts,
+    CreatePosts,
   },
   data() {
     return {
