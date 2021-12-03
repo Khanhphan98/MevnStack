@@ -27,7 +27,7 @@ export default {
   props: ["user"],
   methods: {
     handleLogout() {
-      localStorage.removeItem("token");
+      document.cookie = "token=;";
       window.location.href = "/login";
     },
   },

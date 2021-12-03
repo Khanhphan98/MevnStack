@@ -12,7 +12,7 @@ module.exports = {
             return res.json({ status: false, error: 'Invalid username' }, 422)
         }
 
-        if(!plainTextPassword || typeof plainTextPassword !== 'string'){
+        if(!plainTextPassword || typeof plainTextPassword !== 'string') {
             return res.json({ status: false, error: 'Invalid password' }, 422)
         }
         
@@ -72,9 +72,14 @@ module.exports = {
         const token = authHeader && authHeader.split(' ')[1]
 
         if (String(token) !== undefined) {
-            const userInfo  = await jwt.verify(token, JWT_SECRET)
-            const user      = await User.findById(userInfo.id)
-            return res.json({ status: true,data: user }, 200)
+            try {
+                const userInfo  = await jwt.verify(token, JWT_SECRET)
+                const user      = await User.findById(userInfo.id)
+                return res.json({ status: true,data: user }, 200);
+            } catch (e) {
+                return res.json({ status: false, error: e }, 422);
+            }
+            
         } else {
             return res.json({ status: false }, 422)
         }

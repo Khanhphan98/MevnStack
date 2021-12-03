@@ -1,6 +1,13 @@
 import axios from 'axios'
 
 axios.defaults.baseURL = 'http://localhost:9090/';
-if (document.cookie.split("=")[1]) {
-    axios.defaults.headers.common['Authorization'] = "Bearer " + document.cookie.split("=")[1]
+
+if (getCookie('token') !== "") {
+    axios.defaults.headers.common['Authorization'] = "Bearer " + getCookie('token')
+}
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
 }

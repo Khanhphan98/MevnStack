@@ -30,7 +30,13 @@ export default {
     return { user: null };
   },
   async created() {
-    if (document.cookie.split("=")[1]) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${"token"}=`);
+    var token = "";
+    if (parts.length === 2) {
+      token = parts.pop().split(";").shift();
+    }
+    if (token !== "") {
       await axios
         .get("user")
         .then((res) => {
