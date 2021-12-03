@@ -2,7 +2,7 @@
   <div>
     <div class="wrap-header">
       <h3>Posts</h3>
-      <CreatePosts />
+      <CreatePosts v-on:render-posts="created()" />
     </div>
     <ListPosts :posts="posts" />
   </div>

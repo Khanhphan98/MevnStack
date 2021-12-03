@@ -127,6 +127,7 @@ export default {
         })
         .then((res) => {
           console.log(res);
+          this.$emit("render-posts");
         })
         .catch((err) => {
           console.log(err);
