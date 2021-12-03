@@ -6,22 +6,39 @@
         <i class="fa fa-plus-circle"></i> ADD
       </button>
     </div>
+    <ListPosts :posts="posts" />
   </div>
 </template>
 
 <script>
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
+import ListPosts from "./posts/listPosts.vue";
+
 export default {
   name: "Posts",
-  data() {
-    return {};
+  components: {
+    ListPosts,
   },
-  async listPost() {
-    axios
+  data() {
+    return {
+      posts: [],
+    };
+  },
+  methods: {
+    configStatus(status) {
+      if (Number(status) === 1) {
+        return "Hoạt động";
+      } else {
+        return "Tạm dừng";
+      }
+    },
+  },
+  async created() {
+    await axios
       .get("/posts")
       .then((res) => {
-        console.log(res);
+        this.posts = res.data.post;
       })
       .catch((err) => {
         console.log(err);
