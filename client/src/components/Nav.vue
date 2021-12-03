@@ -12,6 +12,9 @@
       </ul>
       <ul class="navbar-nav mr-auto" v-if="user">
         <li class="nav-item">
+          <router-link to="posts" class="nav-link">Posts</router-link>
+        </li>
+        <li class="nav-item">
           <a href="javascript:void(0)" @click="handleLogout" class="nav-link"
             >Logout</a
           >
