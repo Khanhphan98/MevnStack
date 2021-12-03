@@ -57,12 +57,12 @@ export default {
   outline: none;
 }
 body {
-  background: #1c8ef9;
+  background: #1c8ef9 !important;
   min-height: 100vh;
   font-weight: 400;
 }
 .wrapper {
-  background-color: #fff;
+  background-color: #fff !important;
   padding: 40px 50px;
   border-radius: 20px;
   margin-top: 100px;
