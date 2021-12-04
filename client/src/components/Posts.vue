@@ -2,7 +2,7 @@
   <div>
     <div class="wrap-header">
       <h3>Posts</h3>
-      <CreatePosts v-on:render-posts="renderPost()" />
+      <CreatePosts :method="'ADD'" v-on:render-posts="renderPost()" />
     </div>
     <table class="table">
       <thead>
@@ -22,9 +22,17 @@
           <td>{{ value.content }}</td>
           <td>{{ value.author }}</td>
           <td>{{ configStatus(value.status) }}</td>
-          <td>
-            <CreatePosts v-bind:post="value" v-on:render-posts="renderPost()" />
-            <button @click="deletePost(value._id)" class="btn btn-danger">
+          <td style="display: flex">
+            <CreatePosts
+              :post="value"
+              :method="'EDIT'"
+              v-on:render-posts="renderPost()"
+            />
+            <button
+              @click="deletePost(value._id)"
+              style="margin-left: 5px"
+              class="btn btn-danger"
+            >
               <i class="fa fa-trash"></i>
             </button>
           </td>
@@ -79,15 +87,6 @@ export default {
           console.log(err);
         });
     },
-    // async editPost(value, idPost) {
-    //   console.log(value, idPost);
-    //   axios.put(`update-post/${idPost}`, {
-    //     title: value.title,
-    //     content: value.content,
-    //     author: value.author,
-    //     status: value.status,
-    //   });
-    // },
   },
   async created() {
     this.renderPost();

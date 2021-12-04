@@ -1,12 +1,23 @@
 <template>
   <div>
-    <b-button @click="show = true" variant="primary"
-      ><i class="fa fa-plus-circle"></i> ADD</b-button
+    <b-button
+      v-if="method === 'ADD'"
+      @click="createEditPost()"
+      variant="primary"
     >
+      ADD
+    </b-button>
 
+    <b-button
+      v-if="method === 'EDIT'"
+      @click="createEditPost()"
+      variant="success"
+    >
+      EDIT
+    </b-button>
     <b-modal
       v-model="show"
-      title="Create Post"
+      :title="methodModal"
       :header-bg-variant="headerBgVariant"
       :header-text-variant="headerTextVariant"
       :body-bg-variant="bodyBgVariant"
@@ -39,17 +50,6 @@
             </div>
 
             <div class="form-group">
-              <label for="author">Author</label>
-              <input
-                type="text"
-                class="form-control"
-                id="author"
-                placeholder="Enter author"
-                v-model="author"
-              />
-            </div>
-
-            <div class="form-group">
               <label for="status">Status</label>
               <select class="form-control" id="status" v-model="status">
                 <option>-- Select option --</option>
@@ -70,7 +70,7 @@
             @click="create()"
             style="margin-right: 5px"
           >
-            Create
+            {{ activeModal }}
           </b-button>
           <b-button
             variant="danger"
@@ -91,7 +91,7 @@
 import axios from "axios";
 export default {
   name: "CreatePost",
-  props: ["post"],
+  props: ["post", "method"],
   data: function () {
     return {
       show: false,
@@ -115,9 +115,8 @@ export default {
       author: null,
       content: null,
       status: null,
-      editPost: () => {
-        console.log(this.post);
-      },
+      methodModal: "Create Post",
+      activeModal: "ADD",
     };
   },
   methods: {
@@ -136,6 +135,19 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    async createEditPost() {
+      this.show = true;
+      if (this.post !== undefined) {
+        this.title = this.post.title;
+        this.content = this.post.content;
+        this.status = this.post.status;
+        this.methodModal = "Edit Post";
+        this.activeModal = "EDIT";
+      } else {
+        this.methodModal = "Create Post";
+        this.activeModal = "ADD";
+      }
     },
   },
 };
