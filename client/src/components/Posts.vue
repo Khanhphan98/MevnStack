@@ -63,26 +63,31 @@ export default {
       status: config.status,
     };
   },
+  mounted: function () {
+    this.renderPost();
+  },
   methods: {
     configStatus(status) {
       if (Number(status) === config.status[1].value) {
-        return "Hoạt động";
+        return config.status[1].name;
       } else {
-        return "Tạm dừng";
+        return config.status[0].name;
       }
     },
     async renderPost() {
-      await axios
-        .post("/posts", {
-          userID: this.user._id,
-        })
-        .then((res) => {
-          this.posts = res.data.post;
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      if (this.user._id !== null) {
+        await axios
+          .post("/posts", {
+            userID: this.user._id,
+          })
+          .then((res) => {
+            this.posts = res.data.post;
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     },
     async deletePost(idPost) {
       await axios
@@ -96,9 +101,6 @@ export default {
           console.log(err);
         });
     },
-  },
-  async created() {
-    this.renderPost();
   },
 };
 </script>

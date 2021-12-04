@@ -63,6 +63,11 @@
               </select>
             </div>
           </form>
+          <p v-if="errors.length">
+            <ul>
+                <li v-for="error in errors" v-bind:key="error" v-bind:todo="error" >{{ error }}</li>
+            </ul>
+          </p>
         </b-row>
       </b-container>
 
@@ -126,42 +131,55 @@ export default {
       authorID: null,
       postID: null,
       stt: config.status,
+      errors: [],
     };
   },
   methods: {
     async create() {
-      if (this.activeModal === "ADD") {
-        await axios
-          .post("insert-post", {
-            title: this.title,
-            author: this.authorID,
-            content: this.content,
-            status: this.status,
-          })
-          .then(() => {
-            this.show = false;
-            this.$emit("render-posts");
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        await axios
-          .put(`update-post/${this.postID}`, {
-            title: this.title,
-            author: this.authorID,
-            content: this.content,
-            status: this.status,
-          })
-          .then((res) => {
-            this.show = false;
-            console.log(res);
-            this.$emit("render-posts");
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
+        this.errors = [];
+
+        if (!this.title) {
+            this.errors.push("Title is required");
+        }
+        if (!this.content) {
+            this.errors.push("Content is required");
+        }
+        if (!this.status) {
+            this.errors.push("Status is required");
+        }
+        if (this.title && this.content && this.status) {
+            if (this.activeModal === "ADD") {
+                await axios
+                    .post("insert-post", {
+                    title: this.title,
+                    author: this.authorID,
+                    content: this.content,
+                    status: this.status,
+                    })
+                    .then(() => {
+                    this.show = false;
+                    this.$emit("render-posts");
+                    })
+                    .catch((err) => {
+                    console.log(err);
+                    });
+                } else {
+                    await axios
+                    .put(`update-post/${this.postID}`, {
+                        title: this.title,
+                        author: this.authorID,
+                        content: this.content,
+                        status: this.status,
+                    })
+                    .then(() => {
+                        this.show = false;
+                        this.$emit("render-posts");
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+                }
+        }
     },
     async createEditPost() {
       this.show = true;
