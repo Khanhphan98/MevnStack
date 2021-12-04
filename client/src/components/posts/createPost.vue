@@ -91,7 +91,7 @@
 import axios from "axios";
 export default {
   name: "CreatePost",
-  props: ["post", "method"],
+  props: ["post", "method", "author"],
   data: function () {
     return {
       show: false,
@@ -112,42 +112,64 @@ export default {
       footerBgVariant: "warning",
       footerTextVariant: "dark",
       title: null,
-      author: null,
       content: null,
       status: null,
       methodModal: "Create Post",
       activeModal: "ADD",
+      authorID: null,
+      postID: null,
     };
   },
   methods: {
     async create() {
-      await axios
-        .post("insert-post", {
-          title: this.title,
-          author: this.author,
-          content: this.content,
-          status: this.status,
-        })
-        .then(() => {
-          this.show = false;
-          this.$emit("render-posts");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      if (this.activeModal === "ADD") {
+        await axios
+          .post("insert-post", {
+            title: this.title,
+            author: this.authorID,
+            content: this.content,
+            status: this.status,
+          })
+          .then(() => {
+            this.show = false;
+            this.$emit("render-posts");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        await axios
+          .put(`update-post/${this.postID}`, {
+            title: this.title,
+            author: this.authorID,
+            content: this.content,
+            status: this.status,
+          })
+          .then((res) => {
+            this.show = false;
+            console.log(res);
+            this.$emit("render-posts");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     },
     async createEditPost() {
       this.show = true;
       if (this.post !== undefined) {
+        console.log(this.post);
         this.title = this.post.title;
         this.content = this.post.content;
         this.status = this.post.status;
+        this.postID = this.post._id;
         this.methodModal = "Edit Post";
         this.activeModal = "EDIT";
       } else {
         this.methodModal = "Create Post";
         this.activeModal = "ADD";
       }
+      this.authorID = this.author._id;
     },
   },
 };

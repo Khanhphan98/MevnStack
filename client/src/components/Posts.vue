@@ -2,7 +2,11 @@
   <div>
     <div class="wrap-header">
       <h3>Posts</h3>
-      <CreatePosts :method="'ADD'" v-on:render-posts="renderPost()" />
+      <CreatePosts
+        :method="'ADD'"
+        :author="user"
+        v-on:render-posts="renderPost()"
+      />
     </div>
     <table class="table">
       <thead>
@@ -10,7 +14,6 @@
           <th scope="col">#</th>
           <th scope="col">Title</th>
           <th scope="col">Content</th>
-          <th scope="col">Author</th>
           <th scope="col">Status</th>
           <th scope="col">Method</th>
         </tr>
@@ -20,10 +23,10 @@
           <th scope="row">{{ post + 1 }}</th>
           <td>{{ value.title }}</td>
           <td>{{ value.content }}</td>
-          <td>{{ value.author }}</td>
           <td>{{ configStatus(value.status) }}</td>
           <td style="display: flex">
             <CreatePosts
+              :author="user"
               :post="value"
               :method="'EDIT'"
               v-on:render-posts="renderPost()"
@@ -49,6 +52,7 @@ import CreatePosts from "./posts/createPost.vue";
 
 export default {
   name: "Posts",
+  props: ["user"],
   components: {
     CreatePosts,
   },
