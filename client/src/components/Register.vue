@@ -69,23 +69,6 @@ export default {
   },
   methods: {
     async handleRegister() {
-      if (
-        this.username &&
-        this.email &&
-        this.password &&
-        this.password_confirm
-      ) {
-        const res = await axios.post(`register`, {
-          username: this.username,
-          email: this.email,
-          password: this.password,
-          password_confirm: this.password_confirm,
-        });
-
-        if (res.data.status) {
-          this.$router.push("/login");
-        }
-      }
       this.errors = [];
 
       if (!this.username) {
@@ -99,6 +82,29 @@ export default {
       }
       if (!this.password_confirm) {
         this.errors.push("Password_confirm is required");
+      }
+
+      if (this.password !== this.password_confirm) {
+        this.errors.push("Password does not match");
+      }
+
+      if (
+        this.username &&
+        this.email &&
+        this.password &&
+        this.password_confirm && 
+        this.password === this.password_confirm
+      ) {
+        const res = await axios.post(`register`, {
+          username: this.username,
+          email: this.email,
+          password: this.password,
+          password_confirm: this.password_confirm,
+        });
+
+        if (res.data.status) {
+          this.$router.push("/login");
+        }
       }
     },
   },
