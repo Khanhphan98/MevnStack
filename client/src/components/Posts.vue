@@ -73,9 +73,12 @@ export default {
     },
     async renderPost() {
       await axios
-        .get("/posts")
+        .post("/posts", {
+          userID: this.user._id,
+        })
         .then((res) => {
           this.posts = res.data.post;
+          console.log(res);
         })
         .catch((err) => {
           console.log(err);

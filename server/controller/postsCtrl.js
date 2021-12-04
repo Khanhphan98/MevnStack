@@ -3,7 +3,9 @@ const { check } = require('express-validator')
 
 module.exports = {
     getPosts: async (req, res) => {
-        const posts = await Posts.find({});
+        const { userID } = req.body;
+        console.log(userID);
+        const posts = await Posts.find({ author: userID });
         return res.json({ post: posts }, 200)
     },
     insertPost: async (req, res) => {
