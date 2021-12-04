@@ -51,10 +51,15 @@
 
             <div class="form-group">
               <label for="status">Status</label>
-              <select class="form-control" id="status" v-model="status">
-                <option>-- Select option --</option>
-                <option value="1">Hoạt động</option>
-                <option value="0">Tạm dừng</option>
+              <select class="form-control" v-model="status">
+                <option disabled value="">-- Select Status --</option>
+                <option
+                  v-for="val in stt"
+                  v-bind:value="val.value"
+                  :key="val.value"
+                >
+                  {{ val.name }}
+                </option>
               </select>
             </div>
           </form>
@@ -89,6 +94,8 @@
 <script>
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
+import config from "../../service/config";
+
 export default {
   name: "CreatePost",
   props: ["post", "method", "author"],
@@ -118,6 +125,7 @@ export default {
       activeModal: "ADD",
       authorID: null,
       postID: null,
+      stt: config.status,
     };
   },
   methods: {
@@ -168,6 +176,9 @@ export default {
       } else {
         this.methodModal = "Create Post";
         this.activeModal = "ADD";
+        this.title = "";
+        this.content = "";
+        this.status = "";
       }
       this.authorID = this.author._id;
     },

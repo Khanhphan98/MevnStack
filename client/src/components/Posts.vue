@@ -49,6 +49,7 @@
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
 import CreatePosts from "./posts/createPost.vue";
+import config from "../service/config";
 
 export default {
   name: "Posts",
@@ -59,11 +60,12 @@ export default {
   data() {
     return {
       posts: [],
+      status: config.status,
     };
   },
   methods: {
     configStatus(status) {
-      if (Number(status) === 1) {
+      if (Number(status) === config.status[1].value) {
         return "Hoạt động";
       } else {
         return "Tạm dừng";
