@@ -4,20 +4,44 @@
       <h3>Posts</h3>
       <CreatePosts v-on:render-posts="renderPost()" />
     </div>
-    <ListPosts v-on:render-posts="renderPost()" :posts="posts" />
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Title</th>
+          <th scope="col">Content</th>
+          <th scope="col">Author</th>
+          <th scope="col">Status</th>
+          <th scope="col">Method</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(value, post) in posts" :key="post.title">
+          <th scope="row">{{ post + 1 }}</th>
+          <td>{{ value.title }}</td>
+          <td>{{ value.content }}</td>
+          <td>{{ value.author }}</td>
+          <td>{{ configStatus(value.status) }}</td>
+          <td>
+            <CreatePosts v-bind:post="value" v-on:render-posts="renderPost()" />
+            <button @click="deletePost(value._id)" class="btn btn-danger">
+              <i class="fa fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <script>
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
-import ListPosts from "./posts/listPosts.vue";
 import CreatePosts from "./posts/createPost.vue";
 
 export default {
   name: "Posts",
   components: {
-    ListPosts,
     CreatePosts,
   },
   data() {
@@ -43,6 +67,27 @@ export default {
           console.log(err);
         });
     },
+    async deletePost(idPost) {
+      await axios
+        .delete(`remove-post/${idPost}`)
+        .then((res) => {
+          if (res.data.status) {
+            this.renderPost();
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    // async editPost(value, idPost) {
+    //   console.log(value, idPost);
+    //   axios.put(`update-post/${idPost}`, {
+    //     title: value.title,
+    //     content: value.content,
+    //     author: value.author,
+    //     status: value.status,
+    //   });
+    // },
   },
   async created() {
     this.renderPost();

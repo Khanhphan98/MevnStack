@@ -91,7 +91,8 @@
 import axios from "axios";
 export default {
   name: "CreatePost",
-  data() {
+  props: ["post"],
+  data: function () {
     return {
       show: false,
       variants: [
@@ -114,6 +115,9 @@ export default {
       author: null,
       content: null,
       status: null,
+      editPost: () => {
+        console.log(this.post);
+      },
     };
   },
   methods: {
