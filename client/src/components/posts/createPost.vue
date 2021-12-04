@@ -125,8 +125,8 @@ export default {
           content: this.content,
           status: this.status,
         })
-        .then((res) => {
-          console.log(res);
+        .then(() => {
+          this.show = false;
           this.$emit("render-posts");
         })
         .catch((err) => {

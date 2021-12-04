@@ -7,6 +7,7 @@
         <th scope="col">Content</th>
         <th scope="col">Author</th>
         <th scope="col">Status</th>
+        <th scope="col">Method</th>
       </tr>
     </thead>
     <tbody>
@@ -16,12 +17,22 @@
         <td>{{ value.content }}</td>
         <td>{{ value.author }}</td>
         <td>{{ configStatus(value.status) }}</td>
+        <td>
+          <button class="btn btn-success" style="margin-right: 5px">
+            <i class="fa fa-edit"></i>
+          </button>
+          <button @click="deletePost(value._id)" class="btn btn-danger">
+            <i class="fa fa-trash"></i>
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
+import axios from "axios";
 export default {
   name: "ListPosts",
   props: ["posts"],
@@ -32,6 +43,17 @@ export default {
       } else {
         return "Tạm dừng";
       }
+    },
+    async deletePost(idPost) {
+      await axios
+        .delete(`remove-post/${idPost}`)
+        .then((res) => {
+          console.log(res);
+          this.$emit("render-posts");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };

@@ -38,14 +38,13 @@ module.exports = {
         const _id   = req.params.id
         const post  = await Posts.findById({_id})
         
+
         if (post === null) {
             return res.json({ error: 'Post is not found'}, 422)
         }
 
         try {
-            await Posts.findByIdAndRemove({_id}, (err, success) => {
-                if (err) { return res.json({ error: err }, 422) }
-            });
+            await Posts.findByIdAndRemove({_id});
             return res.json({ status: true }, 200)
         } catch (e) {
             return res.json({ error: e }, 422)

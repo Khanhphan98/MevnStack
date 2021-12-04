@@ -2,9 +2,9 @@
   <div>
     <div class="wrap-header">
       <h3>Posts</h3>
-      <CreatePosts v-on:render-posts="created()" />
+      <CreatePosts v-on:render-posts="renderPost()" />
     </div>
-    <ListPosts :posts="posts" />
+    <ListPosts v-on:render-posts="renderPost()" :posts="posts" />
   </div>
 </template>
 
@@ -33,16 +33,19 @@ export default {
         return "Tạm dừng";
       }
     },
+    async renderPost() {
+      await axios
+        .get("/posts")
+        .then((res) => {
+          this.posts = res.data.post;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
   async created() {
-    await axios
-      .get("/posts")
-      .then((res) => {
-        this.posts = res.data.post;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.renderPost();
   },
 };
 </script>
