@@ -5,7 +5,7 @@
       @click="createEditPost()"
       variant="primary"
     >
-      ADD
+      <i class="fa fa-plus"></i> ADD
     </b-button>
 
     <b-button
@@ -13,7 +13,7 @@
       @click="createEditPost()"
       variant="success"
     >
-      EDIT
+      <i class="fa fa-edit"></i>
     </b-button>
     <b-modal
       v-model="show"
