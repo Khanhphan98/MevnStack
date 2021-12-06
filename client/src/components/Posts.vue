@@ -80,18 +80,14 @@ export default {
       }
     },
     async renderPost() {
-      if (this.user._id !== null) {
-        await axios
-          .post("/posts", {
-            userID: this.user._id,
-          })
-          .then((res) => {
-            this.posts = res.data.post;
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
+      await axios
+        .get("/posts")
+        .then((res) => {
+          this.posts = res.data.post;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     async deletePost(idPost) {
       await axios

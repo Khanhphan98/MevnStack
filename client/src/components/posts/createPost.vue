@@ -144,15 +144,11 @@ export default {
         if (!this.content) {
             this.errors.push("Content is required");
         }
-        if (!this.status) {
-            this.errors.push("Status is required");
-        }
-        if (this.title && this.content && this.status) {
+        if (this.title && this.content && (this.status === 0 || this.status === 1)) {
             if (this.activeModal === "ADD") {
                 await axios
                     .post("insert-post", {
                     title: this.title,
-                    author: this.authorID,
                     content: this.content,
                     status: this.status,
                     })
@@ -163,11 +159,10 @@ export default {
                     .catch((err) => {
                     console.log(err);
                     });
-                } else {
+              } else {
                     await axios
                     .put(`update-post/${this.postID}`, {
                         title: this.title,
-                        author: this.authorID,
                         content: this.content,
                         status: this.status,
                     })
@@ -184,7 +179,6 @@ export default {
     async createEditPost() {
       this.show = true;
       if (this.post !== undefined) {
-        console.log(this.post);
         this.title = this.post.title;
         this.content = this.post.content;
         this.status = this.post.status;
@@ -198,7 +192,6 @@ export default {
         this.content = "";
         this.status = "";
       }
-      this.authorID = this.author._id;
     },
   },
 };
