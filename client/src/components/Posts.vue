@@ -1,5 +1,13 @@
 <template>
   <div>
+    <Dialog
+      :show="showDialog"
+      :value="idPost"
+      title="Delete posts?"
+      v-on:cancel-dialog="cancel()"
+      v-on:confirm-dialog="confirm(value)"
+      description="Are you sure want to delete this post?"
+    />
     <div class="wrap-header">
       <h3>Posts</h3>
       <CreatePosts
@@ -50,17 +58,21 @@
 import axios from "axios";
 import CreatePosts from "./posts/createPost.vue";
 import config from "../service/config";
+import Dialog from "../components/Dialog.vue";
 
 export default {
   name: "Posts",
   props: ["user"],
   components: {
     CreatePosts,
+    Dialog,
   },
   data() {
     return {
       posts: [],
       status: config.status,
+      showDialog: false,
+      idPost: null,
     };
   },
   mounted: function () {
@@ -72,6 +84,20 @@ export default {
     },
   },
   methods: {
+    cancel() {},
+    async confirm(params) {
+      console.log(params);
+      // await axios
+      //   .delete(`remove-post/${idPost}`)
+      //   .then((res) => {
+      //     if (res.data.status) {
+      //       this.renderPost();
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
+    },
     configStatus(status) {
       if (Number(status) === config.status[1].value) {
         return config.status[1].name;
@@ -89,29 +115,21 @@ export default {
           console.log(err);
         });
     },
-    async deletePost(idPost) {
-      await axios
-        .delete(`remove-post/${idPost}`)
-        .then((res) => {
-          if (res.data.status) {
-            this.renderPost();
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    deletePost(idPost) {
+      this.showDialog = true;
+      this.idPost = idPost;
     },
   },
 };
 </script>
 
 <style>
-.wrap-header {
+/* .wrap-header {
   display: flex;
   position: relative;
 }
 .wrap-header button {
   position: absolute;
   right: 0;
-}
+} */
 </style>
