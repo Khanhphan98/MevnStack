@@ -75,7 +75,7 @@ module.exports = {
             try {
                 const userInfo  = await jwt.verify(token, JWT_SECRET)
                 const user      = await User.findById(userInfo.id)
-                return res.json({ status: true,data: user }, 200);
+                return res.status(200).json({ status: true,data: user });
             } catch (e) {
                 return res.json({ status: false, error: e }, 422);
             }

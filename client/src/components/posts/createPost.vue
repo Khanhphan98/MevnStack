@@ -144,7 +144,7 @@ export default {
         if (!this.content) {
             this.errors.push("Content is required");
         }
-        if (this.title && this.content && (this.status === 0 || this.status === 1)) {
+        if (this.title && this.content) {
             if (this.activeModal === "ADD") {
                 await axios
                     .post("insert-post", {
@@ -166,9 +166,10 @@ export default {
                         content: this.content,
                         status: this.status,
                     })
-                    .then(() => {
-                        this.show = false;
-                        this.$emit("render-posts");
+                    .then((res) => {
+                      console.log(res)
+                      this.show = false;
+                      this.$emit("render-posts");
                     })
                     .catch((err) => {
                         console.log(err);

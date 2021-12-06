@@ -61,7 +61,6 @@ module.exports = {
         const _id   = req.params.id
         const post  = await Posts.findById({_id})
         
-
         if (post === null) {
             return res.json({ error: 'Post is not found'}, 422)
         }
