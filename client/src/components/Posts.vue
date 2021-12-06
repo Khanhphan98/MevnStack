@@ -66,6 +66,11 @@ export default {
   mounted: function () {
     this.renderPost();
   },
+  watch: {
+    renderPost: () => {
+      this.renderPost();
+    },
+  },
   methods: {
     configStatus(status) {
       if (Number(status) === config.status[1].value) {
@@ -82,7 +87,6 @@ export default {
           })
           .then((res) => {
             this.posts = res.data.post;
-            console.log(res);
           })
           .catch((err) => {
             console.log(err);
