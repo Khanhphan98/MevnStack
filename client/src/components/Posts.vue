@@ -51,7 +51,6 @@
         </tr>
       </tbody>
     </table>
-    <NotificationMessage />
   </div>
 </template>
 
@@ -61,7 +60,6 @@ import axios from "axios";
 import CreatePosts from "./posts/createPost.vue";
 import config from "../service/config";
 import Dialog from "../components/service/Dialog.vue";
-import NotificationMessage from "./service/NotificationMessage.vue";
 
 export default {
   name: "Posts",
@@ -69,7 +67,6 @@ export default {
   components: {
     CreatePosts,
     Dialog,
-    NotificationMessage,
   },
   data() {
     return {
