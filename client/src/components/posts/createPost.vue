@@ -110,7 +110,7 @@
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
 import config from "../../service/config";
-import Dialog from "../Dialog.vue";
+import Dialog from "../service/Dialog.vue";
 
 export default {
   name: "CreatePost",
