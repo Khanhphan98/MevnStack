@@ -1,5 +1,5 @@
 <template>
-  <div v-show="show" class="overlay">
+  <div v-show="showDialog" class="overlay">
     <div class="dialog">
       <div class="dialog__content">
         <h2 class="dialog__title" v-text="title">{{ title }}</h2>
@@ -11,9 +11,9 @@
       <hr />
 
       <div class="dialog__footer">
-        <button @click="cancel()" class="dialog__cancel">Cancel</button>
-        <button @click="confirm()" class="dialog__confirm">
-          Yes, delete it
+        <button @click="cancel(false)" class="dialog__cancel">Cancel</button>
+        <button @click="confirm(false)" class="dialog__confirm">
+          {{ btnDialog }}
         </button>
       </div>
     </div>
@@ -23,16 +23,16 @@
 <script>
 export default {
   name: "Dialog",
-  props: ["show", "title", "description", "value"],
+  props: ["showDialog", "title", "description", "value", "btnDialog"],
   methods: {
     cancel() {
       this.$emit("cancel-dialog");
-      this.show = false;
     },
     confirm() {
       const params = this.value;
-      this.$emit("confirm-dialog", params);
-      this.show = false;
+      params !== null
+        ? this.$emit("confirm-dialog", params)
+        : this.$emit("confirm-dialog");
     },
   },
 };

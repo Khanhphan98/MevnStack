@@ -1,12 +1,13 @@
 <template>
   <div>
     <Dialog
-      :show="showDialog"
+      :showDialog="showDialog"
       :value="idPost"
-      title="Delete posts?"
-      v-on:cancel-dialog="cancel()"
-      v-on:confirm-dialog="confirm(value)"
-      description="Are you sure want to delete this post?"
+      btnDialog="Yes, delete it"
+      title="Bạn muốn xoá bài viết này sao?"
+      v-on:cancel-dialog="cancel"
+      v-on:confirm-dialog="confirm"
+      description="Bạn có chắc chắn muốn xoá bài viết này?"
     />
     <div class="wrap-header">
       <h3>Posts</h3>
@@ -84,19 +85,21 @@ export default {
     },
   },
   methods: {
-    cancel() {},
-    async confirm(params) {
-      console.log(params);
-      // await axios
-      //   .delete(`remove-post/${idPost}`)
-      //   .then((res) => {
-      //     if (res.data.status) {
-      //       this.renderPost();
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
+    cancel: function () {
+      this.showDialog = false;
+    },
+    confirm: async function (params) {
+      this.showDialog = false;
+      await axios
+        .delete(`remove-post/${params}`)
+        .then((res) => {
+          if (res.data.status) {
+            this.renderPost();
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     configStatus(status) {
       if (Number(status) === config.status[1].value) {
@@ -124,12 +127,8 @@ export default {
 </script>
 
 <style>
-/* .wrap-header {
+.wrap-header {
   display: flex;
   position: relative;
 }
-.wrap-header button {
-  position: absolute;
-  right: 0;
-} */
 </style>

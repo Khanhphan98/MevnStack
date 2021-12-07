@@ -1,9 +1,19 @@
 <template>
   <div>
+    <Dialog
+      :showDialog="showDialog"
+      :value="postDialog"
+      btnDialog="Yes, edit it"
+      title="Bạn muốn chỉnh sửa bài viết này sao?"
+      v-on:cancel-dialog="cancel"
+      v-on:confirm-dialog="confirm"
+      description="Bạn có chắc chắn muốn chỉnh sửa bài viết này?"
+    />
     <b-button
       v-if="method === 'ADD'"
       @click="createEditPost()"
       variant="primary"
+      class="btn-add"
     >
       <i class="fa fa-plus"></i> ADD
     </b-button>
@@ -100,13 +110,18 @@
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
 import config from "../../service/config";
+import Dialog from "../Dialog.vue";
 
 export default {
   name: "CreatePost",
   props: ["post", "method", "author"],
+  components: {
+    Dialog,
+  },
   data: function () {
     return {
       show: false,
+      showDialog: false,
       variants: [
         "primary",
         "secondary",
@@ -132,6 +147,7 @@ export default {
       postID: null,
       stt: config.status,
       errors: [],
+      postDialog: null
     };
   },
   methods: {
@@ -160,20 +176,15 @@ export default {
                     console.log(err);
                     });
               } else {
-                    await axios
-                    .put(`update-post/${this.postID}`, {
-                        title: this.title,
-                        content: this.content,
-                        status: this.status,
-                    })
-                    .then((res) => {
-                      console.log(res)
-                      this.show = false;
-                      this.$emit("render-posts");
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
+                    this.showDialog = true
+                    this.show = false
+                    this.postDialog = {
+                      postID: this.postID,
+                      title: this.title,
+                      content: this.content,
+                      status: this.status
+                    }
+                    
                 }
         }
     },
@@ -194,6 +205,34 @@ export default {
         this.status = "";
       }
     },
+    cancel: function () {
+      this.showDialog = false;
+    },
+    confirm: async function (params) {
+      this.showDialog = false;
+      this.updatePost(params)
+    },
+    updatePost: async function (params) {
+      await axios
+        .put(`update-post/${params.postID}`, {
+            title: params.title,
+            content: params.content,
+            status: params.status,
+        })
+        .then(() => {
+          this.$emit("render-posts");
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    }
   },
 };
 </script>
+
+<style>
+.btn-add {
+  position: absolute;
+  right: 0;
+}
+</style>
