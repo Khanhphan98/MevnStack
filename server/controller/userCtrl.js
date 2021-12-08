@@ -49,7 +49,7 @@ module.exports = {
                         username: user.username
                     },
                     JWT_SECRET,
-                    { expiresIn: '1d' }
+                    { expiresIn: '1h' }
                 )
                 return res.json({ status: true, token: token }, 200)
             }    

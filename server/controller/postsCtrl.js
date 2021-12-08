@@ -7,6 +7,16 @@ const getToken = require('../lib/getToken')
 const Token = new getToken()
 
 module.exports = {
+    setCookie: (req, res) => {
+        let options = {
+            httpOnly: true,
+            maxAge: (1000 * 60 * 60 * 24),
+            sameSite: 'strict',
+            secure: true
+          };
+        res.cookie('cookieName', 'cookieValue', options);
+        res.status(200).json({ status: true })
+    },
     getPosts: async (req, res) => {
         const token = Token.getToken(req)
 

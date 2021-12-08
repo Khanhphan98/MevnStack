@@ -17,6 +17,7 @@
         v-on:render-posts="renderPost()"
       />
     </div>
+    <button class="btn btn-primary" @click="setCookie">setCookie</button>
     <table class="table">
       <thead>
         <tr>
@@ -85,6 +86,16 @@ export default {
     },
   },
   methods: {
+    setCookie: function () {
+      axios
+        .get("setCookie")
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
     cancel: function () {
       this.showDialog = false;
     },

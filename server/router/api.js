@@ -1,5 +1,5 @@
 const express = require('express')
-const api     = express.Router();
+const api = express.Router();
 
 const userCtrl = require('../controller/userCtrl')
 const postCtrl = require('../controller/postsCtrl')
